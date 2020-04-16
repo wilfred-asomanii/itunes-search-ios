@@ -17,6 +17,11 @@ class ItunesWebService {
         session.configuration.timeoutIntervalForRequest = 5
         return session
     }()
+    private var getRequest: (URL) -> URLRequest = { url in
+        var getRequest = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 5)
+        getRequest.httpMethod = "GET"
+        return getRequest
+    }
     private var dataTask: URLSessionDataTask?
 
     public func performSearch(for searchTerm: String,
@@ -25,7 +30,7 @@ class ItunesWebService {
         guard !searchTerm.isEmpty else { onComplete(nil, nil); return }
         let searchUrl = self.searchURL(for: searchTerm, in: filter)
         dataTask?.cancel()
-        dataTask = urlSession.dataTask(with: searchUrl) {
+        dataTask = urlSession.dataTask(with: getRequest(searchUrl)) {
             [weak self] data, response, err in
             let error = err as NSError?
             guard let self = self else { return }

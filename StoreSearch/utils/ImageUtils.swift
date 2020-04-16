@@ -11,14 +11,15 @@ import UIKit
 
 extension UIImageView {
 
-    func setImage(fromURL url: String?) {
+    func setImage(fromURL url: String?) -> URLSessionDownloadTask? {
         image = UIImage(named: "Placeholder")
-        guard let url = url else { return }
-        let task = URLSession.shared.dataTask(with: URL(string: url)!) {
-            [weak self] data, response, error in
-            guard error == nil else { return }
+        guard let url = url else { return nil }
+        // unlike datatask, downloadtask stores the data in a temporal file storage instead of memory
+        let task = URLSession.shared.downloadTask(with: URL(string: url)!) {
+            [weak self] url, response, error in
+            guard error == nil, url != nil else { return }
             guard validateStatus(of: response) else { return }
-            guard let data = data, let image = UIImage(data: data) else { return }
+            guard let data = try? Data(contentsOf: url!), let image = UIImage(data: data) else { return }
             DispatchQueue.main.async {
                 guard let self = self else { return }
                 self.layer.cornerRadius = self.bounds.width / 2
@@ -27,6 +28,7 @@ extension UIImageView {
             }
         }
         task.resume()
+        return task
     }
     
 }

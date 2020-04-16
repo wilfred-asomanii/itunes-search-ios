@@ -13,6 +13,9 @@ class SearchResultCell: UITableViewCell {
     @IBOutlet weak var artworkImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var artistNameLabel: UILabel!
+
+    var imageLoadTask: URLSessionDownloadTask?
+
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -27,5 +30,16 @@ class SearchResultCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imageLoadTask?.cancel()
+        imageLoadTask = nil
+    }
     
+    public func configure(for result: SearchResult) {
+        nameLabel?.text = result.name
+        artistNameLabel?.text = String(format: "%@ by %@", result.type, result.artist)
+        imageLoadTask = artworkImageView.setImage(fromURL: result.imageSmall)
+    }
 }

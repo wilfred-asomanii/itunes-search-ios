@@ -77,9 +77,7 @@ extension SearchViewController: UISearchBarDelegate, UITableViewDataSource, UITa
         
         let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifiers.searchResultCell, for: indexPath) as! SearchResultCell
         let result = searchResults[indexPath.row]
-        cell.nameLabel?.text = result.name
-        cell.artistNameLabel?.text = String(format: "%@ by %@", result.type, result.artist)
-        cell.artworkImageView.setImage(fromURL: result.imageSmall)
+        cell.configure(for: result);
         return cell
     }
     
