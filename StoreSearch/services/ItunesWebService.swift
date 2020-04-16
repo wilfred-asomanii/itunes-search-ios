@@ -14,17 +14,24 @@ class ItunesWebService {
     public func performSearch(for searchTerm: String,
                               onComplete: @escaping ([SearchResult]?, Error?) -> Void) {
         guard !searchTerm.isEmpty else { onComplete(nil, nil); return }
-        let searchUrl = searchURL(for: searchTerm)
-        do {
-            let data = try Data(contentsOf: searchUrl)
-            let decoder = JSONDecoder()
-            let result = try decoder.decode(ResultData.self, from: data)
-//            let sortedRes = result.results.sorted { $0 < $1 }
-//            or
-            let sortedRes = result.results.sorted(by: <)
-            onComplete(sortedRes, nil)
-        } catch {
-            onComplete(nil, error)
+        DispatchQueue.global().async {
+            let searchUrl = self.searchURL(for: searchTerm)
+            do {
+                let data = try Data(contentsOf: searchUrl)
+                let decoder = JSONDecoder()
+                let result = try decoder.decode(ResultData.self, from: data)
+                //            let sortedRes = result.results.sorted { $0 < $1 }
+                //            or
+                let sortedRes = result.results.sorted(by: <)
+                // run ui code o the main thread
+                DispatchQueue.main.async {
+                    onComplete(sortedRes, nil)
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    onComplete(nil, error)
+                }
+            }
         }
     }
 

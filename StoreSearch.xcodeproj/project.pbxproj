@@ -19,6 +19,7 @@
 		436D3FE624486AB500F0E0C4 /* NoSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 436D3FE524486AB500F0E0C4 /* NoSearchCell.xib */; };
 		436D3FEA2448A55D00F0E0C4 /* ItunesWebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436D3FE92448A55D00F0E0C4 /* ItunesWebService.swift */; };
 		436D3FEC2448AD5600F0E0C4 /* ErrorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 436D3FEB2448AD5600F0E0C4 /* ErrorCell.xib */; };
+		436D3FEE2448C26D00F0E0C4 /* LoadingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 436D3FED2448C26D00F0E0C4 /* LoadingCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		436D3FE524486AB500F0E0C4 /* NoSearchCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NoSearchCell.xib; sourceTree = "<group>"; };
 		436D3FE92448A55D00F0E0C4 /* ItunesWebService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItunesWebService.swift; sourceTree = "<group>"; };
 		436D3FEB2448AD5600F0E0C4 /* ErrorCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ErrorCell.xib; sourceTree = "<group>"; };
+		436D3FED2448C26D00F0E0C4 /* LoadingCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadingCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +99,7 @@
 				436D3FE324486A4F00F0E0C4 /* NothingFoundCell.xib */,
 				436D3FE524486AB500F0E0C4 /* NoSearchCell.xib */,
 				436D3FEB2448AD5600F0E0C4 /* ErrorCell.xib */,
+				436D3FED2448C26D00F0E0C4 /* LoadingCell.xib */,
 			);
 			path = resources;
 			sourceTree = "<group>";
@@ -189,6 +192,7 @@
 				436D3FEC2448AD5600F0E0C4 /* ErrorCell.xib in Resources */,
 				436D3FDD2448610700F0E0C4 /* SearchResultCell.xib in Resources */,
 				436D3FE424486A4F00F0E0C4 /* NothingFoundCell.xib in Resources */,
+				436D3FEE2448C26D00F0E0C4 /* LoadingCell.xib in Resources */,
 				436D3FCC24484AB800F0E0C4 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
