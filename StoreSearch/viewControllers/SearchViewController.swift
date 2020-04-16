@@ -19,9 +19,22 @@ class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        var cellNib = UINib(nibName: CellIdentifiers.searchResultCell, bundle: nil)
+        tableView.register(cellNib, forCellReuseIdentifier: CellIdentifiers.searchResultCell)
+        cellNib = UINib(nibName: CellIdentifiers.noSearchCell, bundle: nil)
+        tableView.register(cellNib, forCellReuseIdentifier: CellIdentifiers.noSearchCell)
+        cellNib = UINib(nibName: CellIdentifiers.nothingFoundCell, bundle: nil)
+        tableView.register(cellNib, forCellReuseIdentifier: CellIdentifiers.nothingFoundCell)
         tableView.contentInset = UIEdgeInsets(top: 52, left: 0, bottom: 0, right: 0)
+
+        searchBar.becomeFirstResponder()
     }
 
+        struct CellIdentifiers {
+            static let searchResultCell = "SearchResultCell"
+            static let nothingFoundCell = "NothingFoundCell"
+            static let noSearchCell = "NoSearchCell"
+        }
 
 }
 
@@ -38,17 +51,17 @@ extension SearchViewController: UISearchBarDelegate, UITableViewDataSource, UITa
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "resultCell")!
+        // this dequeue method works if you've registered a cell with the table view or have prototype cells
         guard let searchResults = searchResults else {
-            cell.textLabel?.text = "Nothing Searched Yet"
-            return cell
+            return tableView.dequeueReusableCell(withIdentifier: CellIdentifiers.noSearchCell, for: indexPath)
         }
         guard searchResults.count != 0 else {
-            cell.textLabel?.text = "No Search Results"
-            return cell
+            return tableView.dequeueReusableCell(withIdentifier: CellIdentifiers.nothingFoundCell, for: indexPath)
         }
-        cell.textLabel?.text = searchResults[indexPath.row].name
-        cell.detailTextLabel?.text = searchResults[indexPath.row].artistName
+
+        let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifiers.searchResultCell, for: indexPath) as! SearchResultCell
+        cell.nameLabel?.text = searchResults[indexPath.row].name
+        cell.artistNameLabel?.text = searchResults[indexPath.row].artistName
         return cell
     }
 
@@ -76,8 +89,9 @@ extension SearchViewController: UISearchBarDelegate, UITableViewDataSource, UITa
     }
 
     func performSearch(for searchTerm: String) {
-        searchResults = []
+        searchResults = nil
         guard !searchTerm.isEmpty else { tableView.reloadData(); return }
+        searchResults = []
         for i in 1...10 {
             searchResults!.append(SearchResult(name: String(format: "Result %d", i), artistName: String(format: "For %@", searchTerm)))
         }
