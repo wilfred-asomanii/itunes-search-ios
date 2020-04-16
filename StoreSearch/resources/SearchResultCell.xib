@@ -39,7 +39,6 @@
                 <color key="tintColor" systemColor="systemPurpleColor" red="0.68627450980000004" green="0.32156862749999998" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
                     <constraint firstItem="ak0-xZ-QKO" firstAttribute="leading" secondItem="wQ0-GW-n3d" secondAttribute="leading" constant="16" id="6XP-Rd-hj1"/>
-                    <constraint firstAttribute="height" constant="80" id="9xM-9i-IHa"/>
                     <constraint firstItem="dBo-9J-Tra" firstAttribute="leading" secondItem="ak0-xZ-QKO" secondAttribute="trailing" constant="8" id="Bq7-P2-FrP"/>
                     <constraint firstItem="XeU-fw-WJ4" firstAttribute="top" secondItem="wQ0-GW-n3d" secondAttribute="top" constant="16" id="ERp-ZT-nN6"/>
                     <constraint firstAttribute="trailing" secondItem="XeU-fw-WJ4" secondAttribute="trailing" constant="16" id="Und-17-YpB"/>

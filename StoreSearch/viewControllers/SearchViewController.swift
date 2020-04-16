@@ -15,6 +15,8 @@ class SearchViewController: UIViewController {
 
     var searchResults: [SearchResult]?
     var timer: Timer?
+    var itunesWebService: ItunesWebService!
+    var error: Error?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,17 +27,19 @@ class SearchViewController: UIViewController {
         tableView.register(cellNib, forCellReuseIdentifier: CellIdentifiers.noSearchCell)
         cellNib = UINib(nibName: CellIdentifiers.nothingFoundCell, bundle: nil)
         tableView.register(cellNib, forCellReuseIdentifier: CellIdentifiers.nothingFoundCell)
+        cellNib = UINib(nibName: CellIdentifiers.errorCell, bundle: nil)
+        tableView.register(cellNib, forCellReuseIdentifier: CellIdentifiers.errorCell)
         tableView.contentInset = UIEdgeInsets(top: 52, left: 0, bottom: 0, right: 0)
 
         searchBar.becomeFirstResponder()
     }
 
-        struct CellIdentifiers {
-            static let searchResultCell = "SearchResultCell"
-            static let nothingFoundCell = "NothingFoundCell"
-            static let noSearchCell = "NoSearchCell"
-        }
-
+    struct CellIdentifiers {
+        static let searchResultCell = "SearchResultCell"
+        static let nothingFoundCell = "NothingFoundCell"
+        static let noSearchCell = "NoSearchCell"
+        static let errorCell = "ErrorCell"
+    }
 }
 
 // Search and tableview datasource
@@ -52,6 +56,9 @@ extension SearchViewController: UISearchBarDelegate, UITableViewDataSource, UITa
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // this dequeue method works if you've registered a cell with the table view or have prototype cells
+        guard error == nil else {
+            return tableView.dequeueReusableCell(withIdentifier: CellIdentifiers.errorCell, for: indexPath)
+        }
         guard let searchResults = searchResults else {
             return tableView.dequeueReusableCell(withIdentifier: CellIdentifiers.noSearchCell, for: indexPath)
         }
@@ -60,8 +67,9 @@ extension SearchViewController: UISearchBarDelegate, UITableViewDataSource, UITa
         }
 
         let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifiers.searchResultCell, for: indexPath) as! SearchResultCell
-        cell.nameLabel?.text = searchResults[indexPath.row].name
-        cell.artistNameLabel?.text = searchResults[indexPath.row].artistName
+        let result = searchResults[indexPath.row]
+        cell.nameLabel?.text = result.name
+        cell.artistNameLabel?.text = String(format: "%@ by %@", result.type, result.artist)
         return cell
     }
 
@@ -89,13 +97,18 @@ extension SearchViewController: UISearchBarDelegate, UITableViewDataSource, UITa
     }
 
     func performSearch(for searchTerm: String) {
-        searchResults = nil
-        guard !searchTerm.isEmpty else { tableView.reloadData(); return }
-        searchResults = []
-        for i in 1...10 {
-            searchResults!.append(SearchResult(name: String(format: "Result %d", i), artistName: String(format: "For %@", searchTerm)))
-        }
-        tableView.reloadData()
+        error = nil
+        itunesWebService.performSearch(for: searchTerm, onComplete: { [ weak self ] results, err in
+            guard let self = self else { return }
+            self.searchResults = results
+            self.error = err
+            self.tableView.reloadSections([0], with: .automatic)
+            guard let _ = err else { return }
+            let alert = UIAlertController(title: "Ooops", message: "Unable to network", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Oh Ok", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            }
+        )
     }
 }
 

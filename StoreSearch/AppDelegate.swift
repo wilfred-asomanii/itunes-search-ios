@@ -11,12 +11,17 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-var window: UIWindow?
+    var window: UIWindow?
+    let itunesWebService: ItunesWebService = {
+        return ItunesWebService()
+    }()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
 
-            return true
+        let searchController = window?.rootViewController as! SearchViewController
+        searchController.itunesWebService = itunesWebService
+        return true
     }
 }
 

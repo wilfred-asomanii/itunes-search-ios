@@ -17,6 +17,8 @@
 		436D3FE1244866C700F0E0C4 /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436D3FDF244866C700F0E0C4 /* SearchResultCell.swift */; };
 		436D3FE424486A4F00F0E0C4 /* NothingFoundCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 436D3FE324486A4F00F0E0C4 /* NothingFoundCell.xib */; };
 		436D3FE624486AB500F0E0C4 /* NoSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 436D3FE524486AB500F0E0C4 /* NoSearchCell.xib */; };
+		436D3FEA2448A55D00F0E0C4 /* ItunesWebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436D3FE92448A55D00F0E0C4 /* ItunesWebService.swift */; };
+		436D3FEC2448AD5600F0E0C4 /* ErrorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 436D3FEB2448AD5600F0E0C4 /* ErrorCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,8 @@
 		436D3FDF244866C700F0E0C4 /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
 		436D3FE324486A4F00F0E0C4 /* NothingFoundCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NothingFoundCell.xib; sourceTree = "<group>"; };
 		436D3FE524486AB500F0E0C4 /* NoSearchCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NoSearchCell.xib; sourceTree = "<group>"; };
+		436D3FE92448A55D00F0E0C4 /* ItunesWebService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItunesWebService.swift; sourceTree = "<group>"; };
+		436D3FEB2448AD5600F0E0C4 /* ErrorCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ErrorCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +68,7 @@
 		436D3FC324484AB800F0E0C4 /* StoreSearch */ = {
 			isa = PBXGroup;
 			children = (
+				436D3FE82448A54200F0E0C4 /* services */,
 				436D3FE7244871C100F0E0C4 /* viewControllers */,
 				436D3FDE2448668F00F0E0C4 /* views */,
 				436D3FDB244860F300F0E0C4 /* resources */,
@@ -91,6 +96,7 @@
 				436D3FDC2448610700F0E0C4 /* SearchResultCell.xib */,
 				436D3FE324486A4F00F0E0C4 /* NothingFoundCell.xib */,
 				436D3FE524486AB500F0E0C4 /* NoSearchCell.xib */,
+				436D3FEB2448AD5600F0E0C4 /* ErrorCell.xib */,
 			);
 			path = resources;
 			sourceTree = "<group>";
@@ -109,6 +115,14 @@
 				436D3FC824484AB800F0E0C4 /* SearchViewController.swift */,
 			);
 			path = viewControllers;
+			sourceTree = "<group>";
+		};
+		436D3FE82448A54200F0E0C4 /* services */ = {
+			isa = PBXGroup;
+			children = (
+				436D3FE92448A55D00F0E0C4 /* ItunesWebService.swift */,
+			);
+			path = services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -172,6 +186,7 @@
 				436D3FE624486AB500F0E0C4 /* NoSearchCell.xib in Resources */,
 				436D3FD124484ABB00F0E0C4 /* LaunchScreen.storyboard in Resources */,
 				436D3FCE24484ABB00F0E0C4 /* Assets.xcassets in Resources */,
+				436D3FEC2448AD5600F0E0C4 /* ErrorCell.xib in Resources */,
 				436D3FDD2448610700F0E0C4 /* SearchResultCell.xib in Resources */,
 				436D3FE424486A4F00F0E0C4 /* NothingFoundCell.xib in Resources */,
 				436D3FCC24484AB800F0E0C4 /* Main.storyboard in Resources */,
@@ -189,6 +204,7 @@
 				436D3FDA24485BD800F0E0C4 /* SearchResult.swift in Sources */,
 				436D3FE1244866C700F0E0C4 /* SearchResultCell.swift in Sources */,
 				436D3FC524484AB800F0E0C4 /* AppDelegate.swift in Sources */,
+				436D3FEA2448A55D00F0E0C4 /* ItunesWebService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
