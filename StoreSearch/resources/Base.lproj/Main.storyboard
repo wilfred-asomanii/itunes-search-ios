@@ -23,8 +23,8 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="vhF-bZ-n7k"/>
                                 </connections>
                             </tableView>
-                            <searchBar opaque="NO" contentMode="redraw" placeholder="Search iTunes" translatesAutoresizingMaskIntoConstraints="NO" id="yAq-PA-DlE">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="56"/>
+                            <searchBar opaque="NO" contentMode="redraw" placeholder="Search iTunes" showsScopeBar="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yAq-PA-DlE">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="103"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <scopeButtonTitles>
                                     <string>Title</string>

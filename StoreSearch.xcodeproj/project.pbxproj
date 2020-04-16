@@ -20,6 +20,7 @@
 		436D3FEA2448A55D00F0E0C4 /* ItunesWebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436D3FE92448A55D00F0E0C4 /* ItunesWebService.swift */; };
 		436D3FEC2448AD5600F0E0C4 /* ErrorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 436D3FEB2448AD5600F0E0C4 /* ErrorCell.xib */; };
 		436D3FEE2448C26D00F0E0C4 /* LoadingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 436D3FED2448C26D00F0E0C4 /* LoadingCell.xib */; };
+		43D394EB2448F62F00D169D5 /* ImageUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D394EA2448F62F00D169D5 /* ImageUtils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		436D3FE92448A55D00F0E0C4 /* ItunesWebService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItunesWebService.swift; sourceTree = "<group>"; };
 		436D3FEB2448AD5600F0E0C4 /* ErrorCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ErrorCell.xib; sourceTree = "<group>"; };
 		436D3FED2448C26D00F0E0C4 /* LoadingCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadingCell.xib; sourceTree = "<group>"; };
+		43D394EA2448F62F00D169D5 /* ImageUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +72,7 @@
 		436D3FC324484AB800F0E0C4 /* StoreSearch */ = {
 			isa = PBXGroup;
 			children = (
+				43D394E92448F61000D169D5 /* utils */,
 				436D3FE82448A54200F0E0C4 /* services */,
 				436D3FE7244871C100F0E0C4 /* viewControllers */,
 				436D3FDE2448668F00F0E0C4 /* views */,
@@ -126,6 +129,14 @@
 				436D3FE92448A55D00F0E0C4 /* ItunesWebService.swift */,
 			);
 			path = services;
+			sourceTree = "<group>";
+		};
+		43D394E92448F61000D169D5 /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				43D394EA2448F62F00D169D5 /* ImageUtils.swift */,
+			);
+			path = utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -209,6 +220,7 @@
 				436D3FE1244866C700F0E0C4 /* SearchResultCell.swift in Sources */,
 				436D3FC524484AB800F0E0C4 /* AppDelegate.swift in Sources */,
 				436D3FEA2448A55D00F0E0C4 /* ItunesWebService.swift in Sources */,
+				43D394EB2448F62F00D169D5 /* ImageUtils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -18,6 +18,7 @@ class SearchViewController: UIViewController {
     var itunesWebService: ItunesWebService!
     var error: Error?
     var isLoading = false
+    let filters = ["All", "Music", "Software", "E-books"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,8 +33,9 @@ class SearchViewController: UIViewController {
         tableView.register(cellNib, forCellReuseIdentifier: CellIdentifiers.errorCell)
         cellNib = UINib(nibName: CellIdentifiers.loadingCell, bundle: nil)
         tableView.register(cellNib, forCellReuseIdentifier: CellIdentifiers.loadingCell)
-        tableView.contentInset = UIEdgeInsets(top: 52, left: 0, bottom: 0, right: 0)
-        
+        tableView.contentInset = UIEdgeInsets(top: 108, left: 0, bottom: 0, right: 0)
+
+        searchBar.scopeButtonTitles = filters
         searchBar.becomeFirstResponder()
     }
     
@@ -52,7 +54,7 @@ extension SearchViewController: UISearchBarDelegate, UITableViewDataSource, UITa
     func position(for bar: UIBarPositioning) -> UIBarPosition {
         return .topAttached
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let searchResults = searchResults, searchResults.count != 0 else { return 1 }
         return searchResults.count
@@ -77,6 +79,7 @@ extension SearchViewController: UISearchBarDelegate, UITableViewDataSource, UITa
         let result = searchResults[indexPath.row]
         cell.nameLabel?.text = result.name
         cell.artistNameLabel?.text = String(format: "%@ by %@", result.type, result.artist)
+        cell.artworkImageView.setImage(fromURL: result.imageSmall)
         return cell
     }
     
@@ -91,7 +94,7 @@ extension SearchViewController: UISearchBarDelegate, UITableViewDataSource, UITa
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        performSearch(for: searchBar.text ?? "")
+        performSearch(for: searchBar.text ?? "", in: searchBar.selectedScopeButtonIndex)
         searchBar.resignFirstResponder()
     }
     
@@ -99,16 +102,22 @@ extension SearchViewController: UISearchBarDelegate, UITableViewDataSource, UITa
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 0.7, repeats: false) { [weak self] t in
             t.invalidate()
-            self?.performSearch(for: searchText)
+            guard let self = self else { return }
+            self.performSearch(for: searchText, in: searchBar.selectedScopeButtonIndex)
         }
     }
+
+    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+        performSearch(for: searchBar.text!, in: searchBar.selectedScopeButtonIndex)
+    }
+
     
-    func performSearch(for searchTerm: String) {
+    func performSearch(for searchTerm: String, in filter: Int) {
         error = nil
         isLoading = true
         searchResults = []
         tableView.reloadSections([0], with: .automatic)
-        itunesWebService.performSearch(for: searchTerm, onComplete: { [ weak self ] results, err in
+        itunesWebService.performSearch(for: searchTerm, in: filter, onComplete: { [ weak self ] results, err in
             guard let self = self else { return }
             self.searchResults = results
             self.error = err
