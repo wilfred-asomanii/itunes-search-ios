@@ -30,7 +30,7 @@ struct SearchResult: Codable, CustomStringConvertible {
     let itemPrice: Double?
     let itemGenre: String?
     let bookGenre: [String]?
-
+    
     // this enum shows the decoder the original json names of the corresponding properties in this class
     enum CodingKeys: String, CodingKey {
         case imageSmall = "artworkUrl60"
@@ -42,18 +42,18 @@ struct SearchResult: Codable, CustomStringConvertible {
         case trackPrice, trackName, trackViewUrl
         case collectionName, collectionPrice, collectionViewUrl
     }
-
+    
     var name: String {
         return trackName ?? collectionName ?? "Unknown Piece"
     }
-
+    
     var storeURL: String {
         return trackViewUrl ?? collectionViewUrl ?? ""
     }
-
+    
     var price: Double {
         return trackPrice ?? collectionPrice ?? itemPrice ?? 0.0 }
-
+    
     var genre: String {
         if let genre = itemGenre {
             return genre
@@ -62,7 +62,7 @@ struct SearchResult: Codable, CustomStringConvertible {
         }
         return "Unknown Genre"
     }
-
+    
     var type: String {
         let kind = self.kind ?? "audiobook"
         switch kind {
@@ -80,11 +80,11 @@ struct SearchResult: Codable, CustomStringConvertible {
         }
         return "Unknown"
     }
-
+    
     var artist: String {
         return artistName ?? "Unknown Artist"
     }
-
+    
     // description from CustomStringConvertible
     var description: String {
         return "Name: \(name), Artist Name: \(artistName ?? "N/A")"

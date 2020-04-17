@@ -38,6 +38,16 @@ class SearchViewController: UIViewController {
         searchBar.scopeButtonTitles = filters
         searchBar.becomeFirstResponder()
     }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "detailSegue", let controller = segue.destination as? DetailViewController {
+            controller.searchResult = sender as? SearchResult
+        }
+    }
     
     struct CellIdentifiers {
         static let searchResultCell = "SearchResultCell"
@@ -89,6 +99,7 @@ extension SearchViewController: UISearchBarDelegate, UITableViewDataSource, UITa
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        performSegue(withIdentifier: "detailSegue", sender: searchResults![indexPath.row])
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

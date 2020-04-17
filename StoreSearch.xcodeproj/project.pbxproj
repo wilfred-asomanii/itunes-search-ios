@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4331C69F2449D61E00C6766F /* StringUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4331C69E2449D61E00C6766F /* StringUtils.swift */; };
 		436D3FC524484AB800F0E0C4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436D3FC424484AB800F0E0C4 /* AppDelegate.swift */; };
 		436D3FC924484AB800F0E0C4 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436D3FC824484AB800F0E0C4 /* SearchViewController.swift */; };
 		436D3FCC24484AB800F0E0C4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 436D3FCA24484AB800F0E0C4 /* Main.storyboard */; };
@@ -21,11 +22,13 @@
 		436D3FEC2448AD5600F0E0C4 /* ErrorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 436D3FEB2448AD5600F0E0C4 /* ErrorCell.xib */; };
 		436D3FEE2448C26D00F0E0C4 /* LoadingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 436D3FED2448C26D00F0E0C4 /* LoadingCell.xib */; };
 		43D394EB2448F62F00D169D5 /* ImageUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D394EA2448F62F00D169D5 /* ImageUtils.swift */; };
+		43D394F32449181B00D169D5 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D394F22449181B00D169D5 /* DetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4331C69E2449D61E00C6766F /* StringUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringUtils.swift; sourceTree = "<group>"; };
 		436D3FC124484AB800F0E0C4 /* StoreSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StoreSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		436D3FC424484AB800F0E0C4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		436D3FC424484AB800F0E0C4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; wrapsLines = 1; };
 		436D3FC824484AB800F0E0C4 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		436D3FCB24484AB800F0E0C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		436D3FCD24484ABB00F0E0C4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -40,6 +43,7 @@
 		436D3FEB2448AD5600F0E0C4 /* ErrorCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ErrorCell.xib; sourceTree = "<group>"; };
 		436D3FED2448C26D00F0E0C4 /* LoadingCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadingCell.xib; sourceTree = "<group>"; };
 		43D394EA2448F62F00D169D5 /* ImageUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUtils.swift; sourceTree = "<group>"; };
+		43D394F22449181B00D169D5 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				436D3FC824484AB800F0E0C4 /* SearchViewController.swift */,
+				43D394F22449181B00D169D5 /* DetailViewController.swift */,
 			);
 			path = viewControllers;
 			sourceTree = "<group>";
@@ -135,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				43D394EA2448F62F00D169D5 /* ImageUtils.swift */,
+				4331C69E2449D61E00C6766F /* StringUtils.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -219,8 +225,10 @@
 				436D3FDA24485BD800F0E0C4 /* SearchResult.swift in Sources */,
 				436D3FE1244866C700F0E0C4 /* SearchResultCell.swift in Sources */,
 				436D3FC524484AB800F0E0C4 /* AppDelegate.swift in Sources */,
+				4331C69F2449D61E00C6766F /* StringUtils.swift in Sources */,
 				436D3FEA2448A55D00F0E0C4 /* ItunesWebService.swift in Sources */,
 				43D394EB2448F62F00D169D5 /* ImageUtils.swift in Sources */,
+				43D394F32449181B00D169D5 /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
