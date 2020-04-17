@@ -31,6 +31,7 @@ class DetailViewController: UIViewController {
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(close))
         gestureRecognizer.delegate = self
         view.addGestureRecognizer(gestureRecognizer)
+        transitioningDelegate = self
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -80,6 +81,38 @@ class DetailViewController: UIViewController {
 extension DetailViewController: UIGestureRecognizerDelegate {
 
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        return touch.view == blurEffectView.contentView
+        return touch.view == popUpView
+    }
+}
+
+extension DetailViewController: UIViewControllerTransitioningDelegate {
+
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return BounceAnimationController()
+    }
+}
+
+class BounceAnimationController: NSObject,
+UIViewControllerAnimatedTransitioning {
+
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
+        return 0.5
+    }
+
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+        if let _ = transitionContext.viewController( forKey: UITransitionContextViewControllerKey.to),
+            let from = transitionContext.view(
+                forKey: UITransitionContextViewKey.from) {
+            UIView.animate(withDuration: 0.5, delay: 0,
+                           usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: [],
+                           animations: {
+                            from.alpha = 0
+                            from.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+                            from.isOpaque = true
+            }, completion: { finished in
+                transitionContext.completeTransition(finished)
+            })
+
+        }
     }
 }
