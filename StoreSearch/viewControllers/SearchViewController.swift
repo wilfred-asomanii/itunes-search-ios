@@ -13,11 +13,9 @@ class SearchViewController: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     
-    var searchResults: [SearchResult]?
     var timer: Timer?
     var itunesWebService: ItunesWebService!
-    var error: Error?
-    var isLoading = false
+    var searchState: SearchState = .notSearched
     let filters = ["All", "Music", "Software", "E-books"]
     
     override func viewDidLoad() {
@@ -66,40 +64,39 @@ extension SearchViewController: UISearchBarDelegate, UITableViewDataSource, UITa
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let searchResults = searchResults, searchResults.count != 0 else { return 1 }
-        return searchResults.count
+        guard case SearchState.results(let results) = searchState else { return 1 }
+        return results.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // this dequeue method works if you've registered a cell with the table view or have prototype cells
-        guard !isLoading else {
+        switch searchState {
+        case .loading:
             return tableView.dequeueReusableCell(withIdentifier: CellIdentifiers.loadingCell, for: indexPath)
-        }
-        guard error == nil else {
+        case .error:
             return tableView.dequeueReusableCell(withIdentifier: CellIdentifiers.errorCell, for: indexPath)
-        }
-        guard let searchResults = searchResults else {
+        case .notSearched:
             return tableView.dequeueReusableCell(withIdentifier: CellIdentifiers.noSearchCell, for: indexPath)
-        }
-        guard searchResults.count != 0 else {
+        case .noResults:
             return tableView.dequeueReusableCell(withIdentifier: CellIdentifiers.nothingFoundCell, for: indexPath)
+        case .results(let searchResults):
+            let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifiers.searchResultCell, for: indexPath) as! SearchResultCell
+            let result = searchResults[indexPath.row]
+            cell.configure(for: result);
+            return cell
         }
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifiers.searchResultCell, for: indexPath) as! SearchResultCell
-        let result = searchResults[indexPath.row]
-        cell.configure(for: result);
-        return cell
     }
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        guard let searchResults = searchResults,
-            searchResults.count != 0 else { return nil }
+        guard case SearchState.results(_) = searchState else { return nil }
         return indexPath
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        performSegue(withIdentifier: "detailSegue", sender: searchResults![indexPath.row])
+        if case SearchState.results(let results) = searchState {
+            performSegue(withIdentifier: "detailSegue", sender: results[indexPath.row])
+        }
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -122,22 +119,21 @@ extension SearchViewController: UISearchBarDelegate, UITableViewDataSource, UITa
 
     
     func performSearch(for searchTerm: String, in filter: Int) {
-        error = nil
-        isLoading = true
-        searchResults = []
+        searchState = .loading
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         tableView.reloadSections([0], with: .automatic)
-        itunesWebService.performSearch(for: searchTerm, in: filter, onComplete: { [ weak self ] results, err in
+        itunesWebService.performSearch(for: searchTerm, in: filter, onComplete: { [ weak self ] (state: SearchState) in
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
             guard let self = self else { return }
-            self.searchResults = results
-            self.error = err
-            self.isLoading = false
+            self.searchState = state
             self.tableView.reloadSections([0], with: .automatic)
-            guard let _ = err else { return }
-            let alert = UIAlertController(title: "Ooops", message: "Unable to network", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Oh Ok", style: .default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
+
+            if case SearchState.error = state {
+                let alert = UIAlertController(title: "Ooops", message: "Unable to network", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Oh Ok", style: .default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+                return
             }
-        )
+        })
     }
 }
-

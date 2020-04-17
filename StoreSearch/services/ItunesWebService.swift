@@ -8,6 +8,16 @@
 
 import Foundation
 
+typealias SearchComplete = (SearchState) -> Void
+
+enum SearchState {
+    case notSearched
+    case loading
+    case noResults
+    case error
+    case results([SearchResult])
+}
+
 class ItunesWebService {
     private let itunesSearchURL = "https://itunes.apple.com/search?country=gh&term="
 
@@ -24,10 +34,9 @@ class ItunesWebService {
     }
     private var dataTask: URLSessionDataTask?
 
-    public func performSearch(for searchTerm: String,
-                              in filter: Int,
-                              onComplete: @escaping ([SearchResult]?, Error?) -> Void) {
-        guard !searchTerm.isEmpty else { onComplete(nil, nil); return }
+    public func performSearch(for searchTerm: String, in filter: Int,
+                              onComplete: @escaping SearchComplete) {
+        guard !searchTerm.isEmpty else { onComplete(.notSearched); return }
         let searchUrl = self.searchURL(for: searchTerm, in: filter)
         dataTask?.cancel()
         dataTask = urlSession.dataTask(with: getRequest(searchUrl)) {
@@ -36,26 +45,27 @@ class ItunesWebService {
             guard let self = self else { return }
             guard error == nil else {
                 guard error!.code != -999 else { return /* canceled */}
-                self.runOnMain(onComplete, nil, error)
+                self.runOnMain(onComplete, .error)
                 return
             }
-            guard let data = data else { self.runOnMain(onComplete, [], nil); return }
-            guard validateStatus(of: response) else { self.runOnMain(onComplete, nil, NSError(domain: "Internet", code: 999)); return }
+            guard let data = data else { self.runOnMain(onComplete, .noResults); return }
+            guard validateStatus(of: response) else { self.runOnMain(onComplete, .error); return }
             let decoder = JSONDecoder()
             do {
                 let result = try decoder.decode(ResultData.self, from: data)
-                self.runOnMain(onComplete, result.results, nil)
+                guard result.results.count > 0 else { self.runOnMain(onComplete, .noResults); return}
+                self.runOnMain(onComplete, .results(result.results))
             } catch {
-                self.runOnMain(onComplete, nil, error)
+                self.runOnMain(onComplete, .error)
             }
         }
         dataTask!.resume()
     }
 
-    private func runOnMain(_ closure: @escaping ([SearchResult]?, Error?) -> Void,
-                           _ results: [SearchResult]?, _ error: Error?) {
+    private func runOnMain(_ closure: @escaping SearchComplete,
+                           _ state: SearchState) {
         DispatchQueue.main.async {
-            closure(results, error)
+            closure(state)
         }
     }
 
